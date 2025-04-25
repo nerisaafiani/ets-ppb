@@ -2,54 +2,45 @@ package com.example.listup
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.listup.ui.theme.ListUpTheme
-import kotlinx.android.synthetic.main.activity_main.btnAddTodo
-import kotlinx.android.synthetic.main.activity_main.btnDeleteAllTodos
-import kotlinx.android.synthetic.main.activity_main.etTodoTitle
-import kotlinx.android.synthetic.main.activity_main.rvTodoItems
+//import kotlinx.android.synthetic.main.activity_main.btnAddTodo
+//import kotlinx.android.synthetic.main.activity_main.btnDeleteAllTodos
+//import kotlinx.android.synthetic.main.activity_main.etTodoTitle
+//import kotlinx.android.synthetic.main.activity_main.rvTodoItems
+import com.example.listup.databinding.ActivityMainBinding
 
 class MainActivity : ComponentActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var todoAdapter: TodoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
-//        setContent {
-//            ListUpTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
-//            }
-//        }
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+//        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         todoAdapter = TodoAdapter(mutableListOf())
 
-        rvTodoItems.adapter = todoAdapter
-        rvTodoItems.layoutManager = LinearLayoutManager(this)
+//        rvTodoItems.adapter = todoAdapter
+//        rvTodoItems.layoutManager = LinearLayoutManager(this)
+        binding.rvTodoItems.adapter = todoAdapter
+        binding.rvTodoItems.layoutManager = LinearLayoutManager(this)
 
-        btnAddTodo.setOnClickListener {
-            val todoTitle = etTodoTitle.text.toString()
+//        btnAddTodo.setOnClickListener {
+        binding.btnAddTodo.setOnClickListener {
+//            val todoTitle = etTodoTitle.text.toString()
+            val todoTitle = binding.etTodoTitle.text.toString()
             if(todoTitle.isNotEmpty()) {
                 val todo = Todo(todoTitle)
                 todoAdapter.addTodo(todo)
-                etTodoTitle.text.clear()
+//                etTodoTitle.text.clear()
+                binding.etTodoTitle.text.clear()
             }
         }
-        btnDeleteAllTodos.setOnClickListener {
+//        btnDeleteAllTodos.setOnClickListener {
+        binding.btnDeleteDoneTodos.setOnClickListener {
             todoAdapter.deleteTodos()
         }
     }

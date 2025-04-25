@@ -31,13 +31,13 @@
         android:layout_height="wrap_content"
         android:text="Add List"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnDeleteAllTodos" />
+        app:layout_constraintEnd_toStartOf="@+id/btnDeleteDoneTodos" />
 
     <Button
-        android:id="@+id/btnDeleteAllTodos"
+        android:id="@+id/btnDeleteDoneTodos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete All"
+        android:text="Delete Done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
