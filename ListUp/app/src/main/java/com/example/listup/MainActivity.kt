@@ -3,6 +3,7 @@ package com.example.listup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 //import kotlinx.android.synthetic.main.activity_main.btnAddTodo
 //import kotlinx.android.synthetic.main.activity_main.btnDeleteAllTodos
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 //import kotlinx.android.synthetic.main.activity_main.rvTodoItems
 import com.example.listup.databinding.ActivityMainBinding
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var todoAdapter: TodoAdapter
