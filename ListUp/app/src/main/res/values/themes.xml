@@ -5,7 +5,6 @@
         <item name="colorPrimary">@color/blue_std</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/blue_light</item>
-        <item name="android:statusBarColor">@color/black</item>
     </style>
 
 </resources>
