@@ -1,15 +1,13 @@
 package com.example.listup
 
+import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-//import kotlinx.android.synthetic.main.activity_main.btnAddTodo
-//import kotlinx.android.synthetic.main.activity_main.btnDeleteAllTodos
-//import kotlinx.android.synthetic.main.activity_main.etTodoTitle
-//import kotlinx.android.synthetic.main.activity_main.rvTodoItems
 import com.example.listup.databinding.ActivityMainBinding
+import com.example.listup.databinding.DialogAddTodoBinding
+import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,47 +16,52 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(R.layout.activity_main)
         setContentView(binding.root)
-        todoAdapter = TodoAdapter(mutableListOf())
 
-//        rvTodoItems.adapter = todoAdapter
-//        rvTodoItems.layoutManager = LinearLayoutManager(this)
+        todoAdapter = TodoAdapter(mutableListOf())
         binding.rvTodoItems.adapter = todoAdapter
         binding.rvTodoItems.layoutManager = LinearLayoutManager(this)
 
-//        btnAddTodo.setOnClickListener {
-        binding.btnAddTodo.setOnClickListener {
-//            val todoTitle = etTodoTitle.text.toString()
-            val todoTitle = binding.etTodoTitle.text.toString()
-            if(todoTitle.isNotEmpty()) {
-                val todo = Todo(todoTitle)
-                todoAdapter.addTodo(todo)
-//                etTodoTitle.text.clear()
-                binding.etTodoTitle.text.clear()
-            }
-        }
-//        btnDeleteAllTodos.setOnClickListener {
-        binding.btnDeleteDoneTodos.setOnClickListener {
-            todoAdapter.deleteTodos()
+        // FAB klik → buka form dialog
+        binding.fabAddTodo.setOnClickListener {
+            showAddTodoDialog()
         }
     }
-}
 
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    ListUpTheme {
-//        Greeting("Android")
-//    }
-//}
+    private fun showAddTodoDialog() {
+        val dialogBinding = DialogAddTodoBinding.inflate(layoutInflater)
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .setCancelable(true)
+
+        val alertDialog = dialogBuilder.create()
+
+        var selectedDeadline = "Belum dipilih"
+
+        dialogBinding.btnPickDate.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePicker = DatePickerDialog(this, { _, y, m, d ->
+                selectedDeadline = "$d/${m + 1}/$y"
+                dialogBinding.tvSelectedDeadline.text = "Deadline: $selectedDeadline"
+            }, year, month, day)
+
+            datePicker.show()
+        }
+
+        dialogBinding.btnSaveTask.setOnClickListener {
+            val taskDescription = dialogBinding.etTaskDescription.text.toString()
+            if (taskDescription.isNotEmpty()) {
+                val todo = Todo(taskDescription, selectedDeadline)
+                todoAdapter.addTodo(todo)
+                alertDialog.dismiss()
+            }
+        }
+
+        alertDialog.show()
+    }
+}
